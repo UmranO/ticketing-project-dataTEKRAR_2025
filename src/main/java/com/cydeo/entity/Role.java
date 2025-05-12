@@ -1,5 +1,7 @@
 package com.cydeo.entity;
 import lombok.*;
+
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Getter
@@ -9,5 +11,6 @@ import javax.persistence.Table;
 @Table(name="roles")
 public class Role extends BaseEntity{
 
+    @ManyToOne
     private String description;
 }
