@@ -23,5 +23,5 @@ public class RoleDtoConverter implements Converter<String, RoleDTO> {
             return null;
         }
         return roleService.findById(Long.parseLong(source));
-    }
-}
+    }                                  //bu HTML'den gelen String "1", "2", "3"'u Long'a parse ediyor so
+}                                      //findById(Long id)'ye denk.
