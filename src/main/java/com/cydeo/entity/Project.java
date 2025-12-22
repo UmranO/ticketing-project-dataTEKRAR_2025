@@ -33,4 +33,8 @@ public class Project extends BaseEntity {
 
     private String projectDetail;
 
+    @ManyToOne
+    @JoinColumn(name = "manager_id")
+    private User assignedManager;
+
 }
