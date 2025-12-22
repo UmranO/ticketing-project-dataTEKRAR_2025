@@ -114,4 +114,22 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+
+//Asagisis Benimki Calisti Ama I'll keep O's:---------------------------------------------------------------------------------------------------
+
+//    public List<UserDTO> listAllByRole(String role) {
+//        //Find all the User Entities
+//        //Filter the Users who are managers
+//        //Convert them to DTOs
+//        //Return them as a List of UserDtos
+//        List<User> users=userRepository.findAll();
+//        return users.stream().filter(user -> user.getRole().getDescription().equalsIgnoreCase(role)).map(userMapper::convertToDto).collect(Collectors.toList());
+//    }
+//Asagisi Ozzy's:---------------------------------------------------------------------------------------------------
+
+    @Override
+    public List<UserDTO> listAllByRole(String role) {
+        List<User> users = userRepository.findByRoleDescriptionIgnoreCase(role);
+        return users.stream().map(userMapper::convertToDto).collect(Collectors.toList());
+    }
 }
