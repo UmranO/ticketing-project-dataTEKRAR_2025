@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
     public void deleteByUserName(String username) {
         //UO----------------------------------------------------------------------------------------------------------------
         //UserController'daki public String deleteUser(@PathVariable("username") String username) metodunda
-        //capture ettigin username'i o metodun icindeki UserService ait olan deleteByUserName(username); 'e geciriyorsun
+        //capture ettigin username'i o metodun icindeki UserService ait olan deleteByUserName(username);'e geciriyorsun
         //Ve userService.deleteByUserName(username); 'u call ettiginde O da UserServiceImp'de UserRepository'den
         //deleteByUsername(username)'i call ediyor ve senin UserService aktarmis oldugun unique username'i pass ediyor-
         //Asagida. VE O userName ile DB'den corresponding User Entity'yi buluyor.
@@ -91,9 +91,26 @@ public class UserServiceImpl implements UserService {
 
         //*************************************************************************************************************
 
-//O ise hazirda deleteByUserName yok diye bunu creare edelim dedi. Yukardaki benim kodum.Cunku hazirda deleteByUser vardi.
+//O ise hazirda deleteByUserName yok diye bunu create edelim dedi. Yukardaki benim kodum.Cunku hazirda deleteByUser vardi.
 //Denedim calisti ama Sinif;a ayni olsun diye asagida O'nunkini koydum.
 
         userRepository.deleteByUserName(username);
     }
+    //Bu yukardaki public void deleteByUserName(String username) {} hem DB'de hem de Ui'da dekete ediyor User'i oysa
+    //Company'lerde hicbirsey delete edilmiyor. O oyuzden Base Entity'ye bir isDeleted diye bir field ekledik ve bunu
+    //false'a set ettik. Eger bu field'in degeri false oldugu surece delete edilmemis oluyor. Ayni zamanda DB'de duruyor.
+    //Ama eger isDeleted true olursa o zaman UI'da gorunmuyor(bunun icin baska bir sey daha yapilmali Don't forget) ama
+    //DB'de deleted true oluyor.
+
+    @Override
+    public void delete(String username) {
+        //Go to DB & get that user with the given username
+        //change the isDeleted field to true
+        //save the object in the DB
+
+        User user = userRepository.findByUserName(username);
+        user.setIsDeleted(true);
+        userRepository.save(user);
+    }
+
 }
