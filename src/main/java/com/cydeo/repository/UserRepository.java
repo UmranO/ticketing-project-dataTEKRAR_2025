@@ -4,14 +4,17 @@ import com.cydeo.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.transaction.Transactional;
+import javax.validation.constraints.Negative;
+import java.util.List;
 
 public interface UserRepository extends JpaRepository<User,Long> {
-    User findByUserName(String username);
 
+    User findByUserName(String username);
+//------------------------------------------------------------------------------------------------------------
     @Transactional
     void deleteByUserName(String username);
 
-}
+
 //    Key rule in Spring Data JPA: All modifying queries require a transaction
 //        This includes:
 //        •	DELETE
@@ -23,3 +26,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
 //Derived modifying queries:
 //  NOT transactional by default
 //  YOU must declare transactional behavior
+//------------------------------------------------------------------------------------------------------------
+
+    List<User> findByRoleDescriptionIgnoreCase(String description);
+}
