@@ -13,4 +13,5 @@ public interface UserService  {
     UserDTO update(UserDTO user);
     void delete(String username);               //we added this to show how to keep in DB but delete from UI
 
+    List<UserDTO> listAllByRole(String role);
 }
