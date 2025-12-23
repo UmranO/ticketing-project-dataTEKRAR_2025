@@ -14,7 +14,9 @@ public interface UserService  {
     UserDTO update(UserDTO user);
     void delete(String username);               //we added this to show how to keep in DB but delete from UI
 
-    //Asagidakini sonra yazdik
+    //Asagidakini sonra yazdik cunku Project Create de dop down'da mevcut Manager'lari gormemiz lazim. Manager'da bir
+    //User olduguna gore onu burada Create etmemiz gerekiyor:
+
     List<UserDTO> listAllByRole(String role);
 
 }
