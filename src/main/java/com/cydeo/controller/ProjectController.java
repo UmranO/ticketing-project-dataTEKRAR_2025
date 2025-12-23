@@ -24,12 +24,12 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    @GetMapping("/create")
+    @GetMapping("/create")                                                            //Meaning send the request & see the  page
     public String createProject(Model model) {
-
-        model.addAttribute("project", new ProjectDTO());
-        model.addAttribute("managers", userService.listAllByRole("manager"));
-        model.addAttribute("projects", projectService.listAllProjects());
+                                                                                           //We'll see the below on the page:
+        model.addAttribute("project", new ProjectDTO());                      //Empty Project Form
+        model.addAttribute("managers", userService.listAllByRole("manager")); //DropDown-See all the Managers
+        model.addAttribute("projects", projectService.listAllProjects());     //Show all the Projects in the Project List Table
 
         return "/project/create";
 
