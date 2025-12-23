@@ -1,12 +1,10 @@
 package com.cydeo.entity;
 
 import com.cydeo.enums.Status;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Where;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -33,8 +31,8 @@ public class Project extends BaseEntity {
 
     private String projectDetail;
 
-    @ManyToOne
-    @JoinColumn(name = "manager_id")
-    private User assignedManager;
+    @ManyToOne  (fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id")            //we change the name of the JOIN Column
+    private User assignedManager;               //Since every Manager is a User we put here User
 
 }
