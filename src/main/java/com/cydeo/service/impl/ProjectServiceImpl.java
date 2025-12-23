@@ -29,8 +29,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectDTO> listAllProjects() {
-        List<Project> list = projectRepository.findAll(Sort.by("projectCode"));
-        return list.stream().map(projectMapper::convertToDto).collect(Collectors.toList());
+        List<Project> list = projectRepository.findAll(Sort.by("projectCode"));  //We're getting All the Projects frm DB in a sorted way
+        return list.stream().map(projectMapper::convertToDto).collect(Collectors.toList()); //Converting the Entities to Dtos and returning
     }
 
     @Override
