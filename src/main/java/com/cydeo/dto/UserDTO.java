@@ -12,6 +12,16 @@ import javax.validation.constraints.*;
 @AllArgsConstructor
 public class UserDTO {
 
+    private Long id;                    //We add this field bec. otherwise when we map the projectDTO to project Entity
+                                        //with the projectmapper, since the dto does not have id field it was giving an error.
+    public Long getId() {               //After adding the field we added the getter & setter for this field.
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @NotBlank
     @Size(max = 15, min = 2)
     private String firstName;
