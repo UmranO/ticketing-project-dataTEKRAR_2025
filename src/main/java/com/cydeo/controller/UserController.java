@@ -78,9 +78,19 @@ public class UserController {
 
     }
 
+//    @GetMapping("/delete/{username}")
+//    public String deleteUser(@PathVariable("username") String username) {
+//        userService.deleteByUserName(username);
+//        return "redirect:/user/create";
+//    }
+
+    //Asagida delete ettiginde UI'da gitsin amam DB de kaslin diye yarattigimiz yeni delete metodunu kullandik.
+    //yukardakindaki deleteByUserName(username) olan hem UI'da hem de DB'de siliyor User'i
+    
     @GetMapping("/delete/{username}")
     public String deleteUser(@PathVariable("username") String username) {
-        userService.deleteByUserName(username);
+      //userService.deleteByUserName(username);
+        userService.delete(username);
         return "redirect:/user/create";
     }
 
