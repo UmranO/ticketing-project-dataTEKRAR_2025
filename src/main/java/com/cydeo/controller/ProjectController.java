@@ -65,34 +65,33 @@ public class ProjectController {
         return "redirect:/project/create";
     }
 
-    @GetMapping("/update/{projectCode}")
-    public String editProject(@PathVariable("projectCode") String projectCode, Model model){
+    @GetMapping("/update/{projectCode}")              //This is the edit part-The project that's gonna be updated is populated in the Form
+                                                      //Then you can edit it & click on sabe button.When you click on
+    public String editProject(@PathVariable("projectCode") String projectCode, Model model){   //save @PostMapping(updateProject() will work.
 
         model.addAttribute("project", projectService.getByProjectCode(projectCode));
         model.addAttribute("managers", userService.listAllByRole("manager"));
         model.addAttribute("projects", projectService.listAllProjects());
-
         return "/project/update";
+    }
+
+    @PostMapping("/update")
+    public String updateProject( @ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("managers", userService.listAllByRole("manager"));
+            model.addAttribute("projects", projectService.listAllProjects());
+
+            return "/project/update";
+
+        }
+
+        projectService.update(project);
+
+        return "redirect:/project/create";
 
     }
-//
-//    @PostMapping("/update")
-//    public String updateProject(@Valid @ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model) {
-//
-//        if (bindingResult.hasErrors()) {
-//
-//            model.addAttribute("managers", userService.findManagers());
-//            model.addAttribute("projects", projectService.findAll());
-//
-//            return "/project/update";
-//
-//        }
-//
-//        projectService.update(project);
-//
-//        return "redirect:/project/create";
-//
-//    }
 //
 //    @GetMapping("/manager/project-status")
 //    public String getProjectByManager(Model model) {
