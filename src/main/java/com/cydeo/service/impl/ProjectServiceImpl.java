@@ -35,10 +35,10 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void save(ProjectDTO dto) {
+    public void save(ProjectDTO dto) {                         //This dto doesn't have sattus now
 
-        dto.setProjectStatus(Status.OPEN);
-        Project project = projectMapper.convertToEntity(dto);
+        dto.setProjectStatus(Status.OPEN);                     //Bec. no field for status in UI. If we don't set it
+        Project project = projectMapper.convertToEntity(dto);  //before we save, we'll get an error
         projectRepository.save(project);
     }
 
