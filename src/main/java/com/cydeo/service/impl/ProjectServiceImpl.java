@@ -50,8 +50,13 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void delete(String code) {
 
+        Project project = projectRepository.findByProjectCode(code);   //We're doing a soft Delete so
+        project.setIsDeleted(true);                                    //we're not actually deletting. We're only
+        projectRepository.save(project);                               //setting the isDeleted field to true so that we
+                                                                       //can still see it in the DB BUT not in UI
     }
-
+                                                                       //Basically bring the project from DB, change the
+                                                                       //isDeleted to true & save it.Similar to User delete
     @Override
     public void complete(String projectCode) {
 
