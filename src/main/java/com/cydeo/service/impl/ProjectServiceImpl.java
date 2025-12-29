@@ -59,6 +59,9 @@ public class ProjectServiceImpl implements ProjectService {
                                                                        //isDeleted to true & save it.Similar to User delete
     @Override
     public void complete(String projectCode) {
+        Project project= projectRepository.findByProjectCode(projectCode);
+        project.setProjectStatus(Status.COMPLETE);
+        projectRepository.save(project);
 
     }
 
