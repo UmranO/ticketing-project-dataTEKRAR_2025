@@ -1,4 +1,7 @@
 package com.cydeo.repository;
 
-public interface TaskRepository {
+import com.cydeo.entity.Task;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TaskRepository extends JpaRepository<Task,Long> {
 }
