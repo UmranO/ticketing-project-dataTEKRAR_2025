@@ -22,4 +22,7 @@ public interface TaskService {                                       //Burasi se
     //findById
     TaskDTO findById(Long id);
 
+    int totalNonCompletedTask(String projectCode);  //For the Unfinished/Completed Column in the Project List in the Project Status page
+    int totalCompletedTask(String projectCode);     //For the Unfinished/Completed Column in the Project List in the Project Status page
+
 }
