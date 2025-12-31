@@ -14,6 +14,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class ProjectDTO {
 
+    private Long id;            //Added to solve the Transient error.Otherwise it can't make the JOIN btw Project & Task
+
     @NotBlank
     private String projectName;
 
