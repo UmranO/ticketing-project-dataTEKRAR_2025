@@ -112,16 +112,21 @@ public class ProjectServiceImpl implements ProjectService {
 
         Project project = projectRepository.findByProjectCode(code);   //We're doing a soft Delete so
         project.setIsDeleted(true);                                    //we're not actually deletting. We're only
+                                                                       //Basically bring the project from DB, change the
+                                                                        //isDeleted to true & save it.Similar to User delete
 
         project.setProjectCode(project.getProjectCode() + "-" + project.getId());  // SP03-4
                                                                        //We added this line bec if we delete a project
                                                                        //and if we want to use that project code,the deleted
                                                                        //project should no longer be same. depends on Comp. policy
+
         projectRepository.save(project);                               //setting the isDeleted field to true so that we
                                                                        //can still see it in the DB BUT not in UI
+
+        taskService.deleteByProject(projectMapper.convertToDto(project)); //Calling the deleteBYProject() to delete all
+                                                                          //the tasks that belong to this Project
     }
-                                                                       //Basically bring the project from DB, change the
-                                                                       //isDeleted to true & save it.Similar to User delete
+
     @Override
     public void complete(String projectCode) {
         Project project= projectRepository.findByProjectCode(projectCode);
