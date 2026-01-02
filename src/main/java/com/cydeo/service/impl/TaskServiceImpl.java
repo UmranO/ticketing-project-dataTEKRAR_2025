@@ -72,5 +72,17 @@ public class TaskServiceImpl implements TaskService {
         return null;                                                    //If not present return null
     }
 
+    //Asagida TaskRepository'de create ettigimiz projectCode'na bagli olarak buldugu specific bir projenin Unfinished &
+    //Finished Task'lerini sayan ()'lari call ediyoruz.
+
+    public int totalNonCompletedTask(String projectCode) {
+        return taskRepository.totalNonCompletedTasks(projectCode);
+    }
+
+    @Override
+    public int totalCompletedTask(String projectCode) {
+        return taskRepository.totalCompletedTasks(projectCode);
+    }
+
 
 }
