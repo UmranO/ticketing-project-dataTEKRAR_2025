@@ -12,5 +12,5 @@ public interface ProjectService {
 
     void complete(String projectCode);                   //Later we figured out we need complete() so came here & write
 
-
+    List<ProjectDTO> listAllProjectDetails();           //For Unfinished/Completed
 }
