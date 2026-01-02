@@ -1,5 +1,6 @@
 package com.cydeo.service;
 
+import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.TaskDTO;
 
 import java.util.List;
@@ -24,5 +25,7 @@ public interface TaskService {                                       //Burasi se
 
     int totalNonCompletedTask(String projectCode);  //For the Unfinished/Completed Column in the Project List in the Project Status page
     int totalCompletedTask(String projectCode);     //For the Unfinished/Completed Column in the Project List in the Project Status page
+
+    void deleteByProject(ProjectDTO projectDTO);
 
 }
