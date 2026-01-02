@@ -11,5 +11,5 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {  //Here
                                                                           //Entity(Buradaki uniqe UI icin)
 
 
-    List<Project> findAllByAssignedManager(User manager);
+    List<Project> findAllByAssignedManager(User manager);                 //gives all the projects that are assigned to a certain User
 }
