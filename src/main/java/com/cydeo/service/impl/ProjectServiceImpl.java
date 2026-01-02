@@ -112,6 +112,11 @@ public class ProjectServiceImpl implements ProjectService {
 
         Project project = projectRepository.findByProjectCode(code);   //We're doing a soft Delete so
         project.setIsDeleted(true);                                    //we're not actually deletting. We're only
+
+        project.setProjectCode(project.getProjectCode() + "-" + project.getId());  // SP03-4
+                                                                       //We added this line bec if we delete a project
+                                                                       //and if we want to use that project code,the deleted
+                                                                       //project should no longer be same. depends on Comp. policy
         projectRepository.save(project);                               //setting the isDeleted field to true so that we
                                                                        //can still see it in the DB BUT not in UI
     }
