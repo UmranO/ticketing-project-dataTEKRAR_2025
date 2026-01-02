@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface TaskRepository extends JpaRepository<Task,Long> {
 
+    //Asagida based on projectCode we counted the Unfinished and Finished Tasks that belong to that project
 
     @Query("SELECT COUNT(t) FROM Task t WHERE t.project.projectCode = ?1 AND t.taskStatus <> 'COMPLETE'")
     int totalNonCompletedTasks(String projectCode);
