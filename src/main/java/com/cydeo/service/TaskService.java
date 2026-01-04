@@ -28,4 +28,6 @@ public interface TaskService {                                       //Burasi se
 
     void deleteByProject(ProjectDTO projectDTO);
 
+    void completeByProject(ProjectDTO projectDTO);
+
 }
