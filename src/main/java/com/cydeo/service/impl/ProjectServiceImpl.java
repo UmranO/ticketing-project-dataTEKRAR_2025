@@ -111,9 +111,9 @@ public class ProjectServiceImpl implements ProjectService {
     public void delete(String code) {
 
         Project project = projectRepository.findByProjectCode(code);   //We're doing a soft Delete so
-        project.setIsDeleted(true);                                    //we're not actually deletting. We're only
+        project.setIsDeleted(true);                                    //we're not actually deleting. We're only
                                                                        //Basically bring the project from DB, change the
-                                                                        //isDeleted to true & save it.Similar to User delete
+                                                                       //isDeleted to true & save it.Similar to User delete
 
         project.setProjectCode(project.getProjectCode() + "-" + project.getId());  // SP03-4
                                                                        //We added this line bec if we delete a project
@@ -123,17 +123,20 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.save(project);                               //setting the isDeleted field to true so that we
                                                                        //can still see it in the DB BUT not in UI
 
-        taskService.deleteByProject(projectMapper.convertToDto(project)); //Calling the deleteBYProject() to delete all
+        taskService.deleteByProject(projectMapper.convertToDto(project)); //Calling the deleteByProject() to delete all
                                                                           //the tasks that belong to this Project
     }
 
     @Override
     public void complete(String projectCode) {
-        Project project= projectRepository.findByProjectCode(projectCode);
+        Project project = projectRepository.findByProjectCode(projectCode);
         project.setProjectStatus(Status.COMPLETE);
         projectRepository.save(project);
 
+        taskService.completeByProject(projectMapper.convertToDto(project)); //completeByProject(ProjectDto dto) yapmis oluyoruz.
     }
+
+
     @Override
      public List<ProjectDTO> listAllProjectDetails() {
 
