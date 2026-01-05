@@ -46,9 +46,9 @@ public class TaskServiceImpl implements TaskService {
     public void update(TaskDTO dto) {
 
         Optional<Task> task = taskRepository.findById(dto.getId());      //Repo's findById(Long Id) returns Optional
-        Task convertedTask  = taskMapper.convertToEntity(dto);           //We convert the editted dto to entity
+        Task convertedTask = taskMapper.convertToEntity(dto);            //We convert the editted dto to entity
 
-        if(task.isPresent()){                                            //Since optional
+        if (task.isPresent()) {                                          //Since optional
             convertedTask.setTaskStatus(task.get().getTaskStatus());     //Setting the status which is missing in the Form
             convertedTask.setAssignedDate(task.get().getAssignedDate()); //Setting the AssignedDate which is missing in the Form
             taskRepository.save(convertedTask);                          //saving to DB
@@ -60,7 +60,7 @@ public class TaskServiceImpl implements TaskService {
 
         Optional<Task> foundTask = taskRepository.findById(id);          //Repo's findById(Long Id) returns Optional
 
-        if(foundTask.isPresent()){                                       //Since optional
+        if (foundTask.isPresent()) {                                       //Since optional
             foundTask.get().setIsDeleted(true);                          //Doing a soft delete
             taskRepository.save(foundTask.get());                        //with get() at the end we Optional->Task
         }
@@ -71,7 +71,7 @@ public class TaskServiceImpl implements TaskService {
 
         Optional<Task> task = taskRepository.findById(id);
 
-        if(task.isPresent()){
+        if (task.isPresent()) {
             return taskMapper.convertToDto(task.get());
         }
         return null;                                                    //If not present return null
@@ -93,13 +93,21 @@ public class TaskServiceImpl implements TaskService {
     public void deleteByProject(ProjectDTO projectDTO) {
         Project project = projectMapper.convertToEntity(projectDTO);
         List<Task> tasks = taskRepository.findAllByProject(project);
-        tasks.forEach(task -> delete(task.getId()));
-        }
-
+        tasks.forEach(task -> delete(task.getId()));                     //delete oldugu icin dto'ya cevirmek gerekmedi
+    }                                                                    //Oysa asagida:Status'leri update ettigimiz icin
+                                                                         //stream's map ile teker teker Dto'ya cevirip
+                                                                         //tek tek status'u COMPLETE yapiyoruz.
     @Override
-    public void completeByProject(ProjectDTO projectDTO) {
+    public void completeByProject(ProjectDTO projectDTO) {                //update-status durumu oldugu icin it's ok to pass Entity instead of id or userName..
+        Project project = projectMapper.convertToEntity(projectDTO);      //ProjectDto'yu Entity'ye ceviriyoruz ki
+        List<Task> tasks = taskRepository.findAllByProject(project);      //taskRepository'de Project Entity'yi pass ederek
+        tasks.stream().map(taskMapper::convertToDto)                      //tum task'lari bulabilelim. Burada Derived Q
+                                                                          //oldugu icin it's ok to pass Entity instead of id or userName..
+                .forEach(taskDTO -> {
+                    taskDTO.setTaskStatus(Status.COMPLETE);
+                    update(taskDTO);
+                });
+
 
     }
-
-
 }
