@@ -122,20 +122,21 @@ public class TaskServiceImpl implements TaskService {
                     taskDTO.setTaskStatus(Status.COMPLETE);
                     update(taskDTO);
                 });
-
-
     }
 //----------------------------------------------------------------------------------------------------------------------
 //Asagisi CT'nin Pending Task icin yaptigi. Benimki  hemen altta ve iyi calisiyor, ama onunkini tutacagim:
     @Override
     public List<TaskDTO> listAllTasksByStatusIsNot(Status status) {
-        return null;
+        UserDTO loggedInUser = userService.findByUserName("john@employee.com");
+        List<Task> tasks = taskRepository.
+                findAllByTaskStatusIsNotAndAssignedEmployee(status, userMapper.convertToEntity(loggedInUser));
+        return tasks.stream().map(taskMapper::convertToDto).collect(Collectors.toList());
     }
-
-//Asagisi benim Pending Task icin yaptigim. CT farkli yapmis. Bunu comment edecegim yukardaki CT'nin ki-----------------
+//-----------------------------------------------------------------------------------------------------------
+//Asagisi benim Pending Task icin yaptigim. CT farkli yapmis. Bunu comment edecegim yukardaki CT'nin ki:
 //    @Override
 //    public List<TaskDTO> listAllTasksByStatusIsNot(Status status) {
-//        UserDTO loggedInUser = userService.findByUserName("UMONAL@YAHOO.COM");
+//        UserDTO loggedInUser = userService.findByUserName("UMONAL@YAHOO.COM");   //Security olmadigi icin boyle veriyoruz
 //        User loggedInEntity=userMapper.convertToEntity(loggedInUser);
 //
 //        List<TaskDTO> listStatusIsNot= taskRepository.findAllByAssignedEmployee(loggedInEntity).stream()
