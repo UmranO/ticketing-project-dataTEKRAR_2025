@@ -28,11 +28,13 @@ public interface TaskRepository extends JpaRepository<Task,Long> {
 //----------------------------------------------------------------------------------------------------------------------
     List<Task> findAllByTaskStatusIsNotAndAssignedEmployee(Status status, User user);
 //------------------------------------------------------------------------------------
-
 //Asagisi benim Pending Task icin yaptigim. CT farkli yapmis. Bunu comment edecegim yukardaki CT'nin ki. O hem status
 //hem de employee'yi secen bir () create etmis. Ben status'u stream ile filter ederek yaptim TaskServiceImpl'de. fark bu
 
     //List<Task> findAllByAssignedEmployee(User employee);
-
 //----------------------------------------------------------------------------------------------------------------------
+
+    List<Task> findAllByTaskStatusAndAssignedEmployee(Status status, User user);
+
+
 }
