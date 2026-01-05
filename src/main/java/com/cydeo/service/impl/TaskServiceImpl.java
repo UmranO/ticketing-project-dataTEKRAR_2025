@@ -27,12 +27,12 @@ public class TaskServiceImpl implements TaskService {
         this.taskMapper = taskMapper;                                               //So we can call methods on it immediately
         this.projectMapper = projectMapper;
     }
-
+//---------------------------------------------------------*------------------------------------------------------------
     @Override
     public List<TaskDTO> listAllTasks() {       //we're getting all the tasks from TaklkRepo/stream/mapping each to a DTO/Collect to a List
         return taskRepository.findAll().stream().map(taskMapper::convertToDto).collect(Collectors.toList());
     }
-
+//---------------------------------------------------------*------------------------------------------------------------
     @Override
     public void save(TaskDTO dto) {
 
@@ -41,31 +41,38 @@ public class TaskServiceImpl implements TaskService {
         Task task = taskMapper.convertToEntity(dto); //mapping Dto to Entity
         taskRepository.save(task);                   //saving to DB
     }
-
+//---------------------------------------------------------*------------------------------------------------------------
     @Override
     public void update(TaskDTO dto) {
-
         Optional<Task> task = taskRepository.findById(dto.getId());      //Repo's findById(Long Id) returns Optional
+
         Task convertedTask = taskMapper.convertToEntity(dto);            //We convert the editted dto to entity
 
-        if (task.isPresent()) {                                          //Since optional
-            convertedTask.setTaskStatus(task.get().getTaskStatus());     //Setting the status which is missing in the Form
-            convertedTask.setAssignedDate(task.get().getAssignedDate()); //Setting the AssignedDate which is missing in the Form
-            taskRepository.save(convertedTask);                          //saving to DB
+//--ilk once bunu yapmistik ama eger we want to Complete the task then the below code is wrong diye alttakini yazdik----
+        //      if (task.isPresent()) {                                          //Since optional
+        //          convertedTask.setTaskStatus(task.get().getTaskStatus());     //Setting the status which is missing in the Form
+        //          convertedTask.setAssignedDate(task.get().getAssignedDate()); //Setting the AssignedDate which is missing in the Form
+        //          taskRepository.save(convertedTask);                         //saving to DB
+        //      }
+//--Sonraki-------------------------------------------------------------------------------------------------------------
+        if(task.isPresent()){
+            convertedTask.setTaskStatus(dto.getTaskStatus() == null ? task.get().getTaskStatus() : dto.getTaskStatus());
+            convertedTask.setAssignedDate(task.get().getAssignedDate());
+            taskRepository.save(convertedTask);
         }
     }
-
+//---------------------------------------------------------*------------------------------------------------------------
     @Override
     public void delete(Long id) {
 
         Optional<Task> foundTask = taskRepository.findById(id);          //Repo's findById(Long Id) returns Optional
 
-        if (foundTask.isPresent()) {                                       //Since optional
+        if (foundTask.isPresent()) {                                     //Since optional
             foundTask.get().setIsDeleted(true);                          //Doing a soft delete
             taskRepository.save(foundTask.get());                        //with get() at the end we Optional->Task
         }
     }
-
+//---------------------------------------------------------*------------------------------------------------------------
     @Override
     public TaskDTO findById(Long id) {
 
@@ -76,19 +83,19 @@ public class TaskServiceImpl implements TaskService {
         }
         return null;                                                    //If not present return null
     }
-
+//---------------------------------------------------------*------------------------------------------------------------
     //Asagida TaskRepository'de create ettigimiz projectCode'na bagli olarak buldugu specific bir projenin Unfinished &
     //Finished Task'lerini sayan ()'lari call ediyoruz.
 
     public int totalNonCompletedTask(String projectCode) {
         return taskRepository.totalNonCompletedTasks(projectCode);
     }
-
+  //----------------------------------------------------------------
     @Override
     public int totalCompletedTask(String projectCode) {
         return taskRepository.totalCompletedTasks(projectCode);
     }
-
+//---------------------------------------------------------*------------------------------------------------------------
     @Override
     public void deleteByProject(ProjectDTO projectDTO) {
         Project project = projectMapper.convertToEntity(projectDTO);
@@ -97,6 +104,7 @@ public class TaskServiceImpl implements TaskService {
     }                                                                    //Oysa asagida:Status'leri update ettigimiz icin
                                                                          //stream's map ile teker teker Dto'ya cevirip
                                                                          //tek tek status'u COMPLETE yapiyoruz.
+//---------------------------------------------------------*------------------------------------------------------------
     @Override
     public void completeByProject(ProjectDTO projectDTO) {                //update-status durumu oldugu icin it's ok to pass Entity instead of id or userName..
         Project project = projectMapper.convertToEntity(projectDTO);      //ProjectDto'yu Entity'ye ceviriyoruz ki
@@ -109,5 +117,10 @@ public class TaskServiceImpl implements TaskService {
                 });
 
 
+    }
+
+    @Override
+    public List<TaskDTO> listAllTasksByStatusIsNot(Status status) {
+        return null;
     }
 }
