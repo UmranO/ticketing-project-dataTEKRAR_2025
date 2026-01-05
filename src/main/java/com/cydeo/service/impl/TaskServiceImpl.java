@@ -132,6 +132,14 @@ public class TaskServiceImpl implements TaskService {
                 findAllByTaskStatusIsNotAndAssignedEmployee(status, userMapper.convertToEntity(loggedInUser));
         return tasks.stream().map(taskMapper::convertToDto).collect(Collectors.toList());
     }
+
+    @Override
+    public List<TaskDTO> listAllTasksByStatus(Status status) {
+        UserDTO loggedInUser = userService.findByUserName("john@employee.com");
+        List<Task> tasks = taskRepository.
+                findAllByTaskStatusAndAssignedEmployee(status, userMapper.convertToEntity(loggedInUser));
+        return tasks.stream().map(taskMapper::convertToDto).collect(Collectors.toList());
+    }
 //-----------------------------------------------------------------------------------------------------------
 //Asagisi benim Pending Task icin yaptigim. CT farkli yapmis. Bunu comment edecegim yukardaki CT'nin ki:
 //    @Override
