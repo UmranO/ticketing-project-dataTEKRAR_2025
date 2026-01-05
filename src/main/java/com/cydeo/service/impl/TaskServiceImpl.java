@@ -1,13 +1,17 @@
 package com.cydeo.service.impl;
 import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.TaskDTO;
+import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.Project;
 import com.cydeo.entity.Task;
+import com.cydeo.entity.User;
 import com.cydeo.enums.Status;
 import com.cydeo.mapper.ProjectMapper;
 import com.cydeo.mapper.TaskMapper;
+import com.cydeo.mapper.UserMapper;
 import com.cydeo.repository.TaskRepository;
 import com.cydeo.service.TaskService;
+import com.cydeo.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,11 +25,14 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
     private final ProjectMapper projectMapper;
-
-    public TaskServiceImpl(TaskRepository taskRepository, TaskMapper taskMapper, ProjectMapper projectMapper) {  //By injection we're doing memory-level object reference assignment.
+    private final UserService userService;
+    private final UserMapper userMapper;
+    public TaskServiceImpl(TaskRepository taskRepository, TaskMapper taskMapper, ProjectMapper projectMapper, UserService userService, UserMapper userMapper) {  //By injection we're doing memory-level object reference assignment.
         this.taskRepository = taskRepository;                                       //It holds a reference to an existing object
         this.taskMapper = taskMapper;                                               //So we can call methods on it immediately
         this.projectMapper = projectMapper;
+        this.userService = userService;
+        this.userMapper = userMapper;
     }
 //---------------------------------------------------------*------------------------------------------------------------
     @Override
@@ -118,9 +125,27 @@ public class TaskServiceImpl implements TaskService {
 
 
     }
-
+//----------------------------------------------------------------------------------------------------------------------
+//Asagisi CT'nin Pending Task icin yaptigi. Benimki  hemen altta ve iyi calisiyor, ama onunkini tutacagim:
     @Override
     public List<TaskDTO> listAllTasksByStatusIsNot(Status status) {
         return null;
     }
+
+//Asagisi benim Pending Task icin yaptigim. CT farkli yapmis. Bunu comment edecegim yukardaki CT'nin ki-----------------
+//    @Override
+//    public List<TaskDTO> listAllTasksByStatusIsNot(Status status) {
+//        UserDTO loggedInUser = userService.findByUserName("UMONAL@YAHOO.COM");
+//        User loggedInEntity=userMapper.convertToEntity(loggedInUser);
+//
+//        List<TaskDTO> listStatusIsNot= taskRepository.findAllByAssignedEmployee(loggedInEntity).stream()
+//                .map(taskMapper::convertToDto)
+//                .filter(task->task.getTaskStatus() !=status)
+//                .collect(Collectors.toList());
+//
+//        return listStatusIsNot;
+//    }
+//----------------------------------------------------------------------------------------------------------------------
+
+
 }
