@@ -34,4 +34,5 @@ public interface TaskService {                                       //Burasi se
 
     List<TaskDTO> listAllTasksByStatusIsNot(Status status);
 
+
 }
