@@ -113,22 +113,19 @@ public class TaskController {
 
     }
 
-//    @PostMapping("/employee/update/{id}")
-//    public String employeeUpdateTask(@Valid @ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model) {
-//
-//        if (bindingResult.hasErrors()) {
-//
-//            model.addAttribute("statuses", Status.values());
-//            model.addAttribute("tasks", taskService.findAllTasksByStatusIsNot(Status.COMPLETE));
-//
-//            return "/task/status-update";
-//
-//        }
+    @PostMapping("/employee/update/{id}")
+    public String employeeUpdateTask(@Valid @ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model) {
 
-//        taskService.updateStatus(task);
-//
-//        return "redirect:/task/employee/pending-tasks";
-//
-//    }
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("statuses", Status.values());
+            model.addAttribute("tasks", taskService.listAllTasksByStatusIsNot(Status.COMPLETE));
+
+            return "/task/status-update";
+        }
+        taskService.update(task);
+        return "redirect:/task/employee/pending-tasks";
+
+    }
 
 }
