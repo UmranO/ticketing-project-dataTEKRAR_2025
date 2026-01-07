@@ -1,5 +1,7 @@
 package com.cydeo.service;
 import com.cydeo.dto.ProjectDTO;
+import com.cydeo.dto.UserDTO;
+
 import java.util.List;
 
 public interface ProjectService {
@@ -13,4 +15,6 @@ public interface ProjectService {
     void complete(String projectCode);                   //Later we figured out we need complete() so came here & write
 
     List<ProjectDTO> listAllProjectDetails();           //For Unfinished/Completed
+
+    List<ProjectDTO> listAllNonCompletedByAssignedManager(UserDTO assignedManager);
 }
