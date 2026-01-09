@@ -12,8 +12,8 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name="users")
-@Where(clause = "is_deleted=false")
+@Table(name="users")                          //Day 26 p40
+//@Where(clause = "is_deleted=false")         // SELECT * FROM users WHERE id = 4 AND is_deleted = false;
 public class User extends BaseEntity {
 
     private String firstName;
