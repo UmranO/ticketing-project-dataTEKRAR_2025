@@ -29,8 +29,8 @@ public class ProjectController {
                                                                                            //We'll see the below on the page:
         model.addAttribute("project", new ProjectDTO());                      //Empty Project Form
         model.addAttribute("managers", userService.listAllByRole("manager")); //DropDown-See all the Managers
-        model.addAttribute("projects", projectService.listAllProjects());     //Show all the Projects in the Project List Table
-
+       // model.addAttribute("projects", projectService.listAllProjects());     //Show all the Projects in the Project List Table
+        model.addAttribute("projects", projectService.listAllProjectDetails());  //we changed the above to this to show only this Manager's projects in Project create page
         return "/project/create";
 
     }
@@ -41,7 +41,7 @@ public class ProjectController {
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("managers", userService.listAllByRole("manager"));
-            model.addAttribute("projects", projectService.listAllProjects());
+            model.addAttribute("projects", projectService.listAllProjectDetails());
 
             return "/project/create";
 
@@ -71,7 +71,7 @@ public class ProjectController {
 
         model.addAttribute("project", projectService.getByProjectCode(projectCode));
         model.addAttribute("managers", userService.listAllByRole("manager"));
-        model.addAttribute("projects", projectService.listAllProjects());
+        model.addAttribute("projects", projectService.listAllProjectDetails());
         return "/project/update";
     }
 
@@ -81,7 +81,7 @@ public class ProjectController {
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("managers", userService.listAllByRole("manager"));
-            model.addAttribute("projects", projectService.listAllProjects());
+            model.addAttribute("projects", projectService.listAllProjectDetails());
 
             return "/project/update";
 
