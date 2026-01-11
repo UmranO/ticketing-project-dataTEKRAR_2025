@@ -14,9 +14,11 @@ public class MapperUtil {
     }
 
     // Some comments to explain what it does. CT prefers this alternative:
-    public <T> T convert(Object objectToBeConverted, T convertedObject) {
-        return modelMapper.map(objectToBeConverted, (Type) convertedObject.getClass());
-    }
+    public <T> T convert(Object objectToBeConverted, T convertedObject) {               //Here we return T Type 1st we get the
+        return modelMapper.map(objectToBeConverted, (Type) convertedObject.getClass()); //class from this convertedObject
+                                                                                        //then we get its Type-This (Type)
+    }                                                                                   //is necessary since it's Generic
+                                                                                        //If it wasn't like String then not necessary
 
 //    public <T> T convert(Object objectToBeConverted, Class<T> convertedObject) { //UO:There's a Class class & this convertedObject
 //        return modelMapper.map(objectToBeConverted, convertedObject);            //is a variable holding the Class object eg:TaskDTO.class
