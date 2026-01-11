@@ -29,19 +29,19 @@ public class ProjectController {
                                                                                            //We'll see the below on the page:
         model.addAttribute("project", new ProjectDTO());                      //Empty Project Form
         model.addAttribute("managers", userService.listAllByRole("manager")); //DropDown-See all the Managers
-        model.addAttribute("projects", projectService.listAllProjects());     //Show all the Projects in the Project List Table
-
+       // model.addAttribute("projects", projectService.listAllProjects());     //Show all the Projects in the Project List Table
+        model.addAttribute("projects", projectService.listAllProjectDetails());  //we changed the above to this to show only this Manager's projects in Project create page
         return "/project/create";
 
     }
 
     @PostMapping("/create")
-    public String insertProject(@ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model) {
+    public String insertProject(@Valid @ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("managers", userService.listAllByRole("manager"));
-            model.addAttribute("projects", projectService.listAllProjects());
+            model.addAttribute("projects", projectService.listAllProjectDetails());
 
             return "/project/create";
 
@@ -71,17 +71,17 @@ public class ProjectController {
 
         model.addAttribute("project", projectService.getByProjectCode(projectCode));
         model.addAttribute("managers", userService.listAllByRole("manager"));
-        model.addAttribute("projects", projectService.listAllProjects());
+        model.addAttribute("projects", projectService.listAllProjectDetails());
         return "/project/update";
     }
 
     @PostMapping("/update")
-    public String updateProject( @ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model) {
+    public String updateProject(@Valid @ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("managers", userService.listAllByRole("manager"));
-            model.addAttribute("projects", projectService.listAllProjects());
+            model.addAttribute("projects", projectService.listAllProjectDetails());
 
             return "/project/update";
 
@@ -103,10 +103,10 @@ public class ProjectController {
         return "/manager/project-status";
     }
 
-//    @GetMapping("/manager/complete/{projectCode}")
-//    public String managerCompleteProject(@PathVariable("projectCode") String projectCode) {
-//        projectService.complete(projectService.findById(projectCode));
-//        return "redirect:/project/manager/project-status";
-//    }
+    @GetMapping("/manager/complete/{projectCode}")
+    public String managerCompleteProject(@PathVariable("projectCode") String projectCode) {
+        projectService.complete(projectCode);
+        return "redirect:/project/manager/project-status";
+    }
 
 }

@@ -111,19 +111,32 @@ public class ProjectServiceImpl implements ProjectService {
     public void delete(String code) {
 
         Project project = projectRepository.findByProjectCode(code);   //We're doing a soft Delete so
-        project.setIsDeleted(true);                                    //we're not actually deletting. We're only
-        projectRepository.save(project);                               //setting the isDeleted field to true so that we
-                                                                       //can still see it in the DB BUT not in UI
-    }
+        project.setIsDeleted(true);                                    //we're not actually deleting. We're only
                                                                        //Basically bring the project from DB, change the
                                                                        //isDeleted to true & save it.Similar to User delete
+
+        project.setProjectCode(project.getProjectCode() + "-" + project.getId());  // SP03-4
+                                                                       //We added this line bec if we delete a project
+                                                                       //and if we want to use that project code,the deleted
+                                                                       //project should no longer be same. depends on Comp. policy
+
+        projectRepository.save(project);                               //setting the isDeleted field to true so that we
+                                                                       //can still see it in the DB BUT not in UI
+
+        taskService.deleteByProject(projectMapper.convertToDto(project)); //Calling the deleteByProject() to delete all
+                                                                          //the tasks that belong to this Project
+    }
+
     @Override
     public void complete(String projectCode) {
-        Project project= projectRepository.findByProjectCode(projectCode);
+        Project project = projectRepository.findByProjectCode(projectCode);
         project.setProjectStatus(Status.COMPLETE);
         projectRepository.save(project);
 
+        taskService.completeByProject(projectMapper.convertToDto(project)); //completeByProject(ProjectDto dto) yapmis oluyoruz.
     }
+
+
     @Override
      public List<ProjectDTO> listAllProjectDetails() {
 
@@ -153,6 +166,7 @@ public class ProjectServiceImpl implements ProjectService {
 
              ).collect(Collectors.toList());
          }
+
 //--Yukardakinin commentsiz hali----------------------------------------------------------------------------------------
 //    @Override
 //    public List<ProjectDTO> listAllProjectDetails() {
@@ -169,5 +183,14 @@ public class ProjectServiceImpl implements ProjectService {
 //                }
 //        ).collect(Collectors.toList());
 //         }
+
+    @Override
+    public List<ProjectDTO> listAllNonCompletedByAssignedManager(UserDTO assignedManager) {
+        List<Project> projects = projectRepository
+                .findAllByProjectStatusIsNotAndAssignedManager(Status.COMPLETE, userMapper.convertToEntity(assignedManager));
+        return projects.stream().map(projectMapper::convertToDto).collect(Collectors.toList());
+    }
+
+
 }
 
