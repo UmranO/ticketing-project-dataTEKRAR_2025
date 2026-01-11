@@ -20,13 +20,10 @@ public class MapperUtil {
     }                                                                                   //is necessary since it's Generic
                                                                                         //If it wasn't like String then not necessary
 
-//    public <T> T convert(Object objectToBeConverted, Class<T> convertedObject) { //UO:There's a Class class & this convertedObject
-//        return modelMapper.map(objectToBeConverted, convertedObject);            //is a variable holding the Class object eg:TaskDTO.class
+ //   public <T> T convert(Object objectToBeConverted, Class<T> convertedObject) { //UO:There's a Class class & this convertedObject
+ //      return modelMapper.map(objectToBeConverted, convertedObject);             //is a variable holding the Class object eg:TaskDTO.class
                                                                                    //& by writing Class<T> in front of it we are saying that
                                                                                    //his variable is a Class object representing type T & in
                                                                                    //reality it'll be whatever we pass for T
-//    }
+   }
 
-
-
-}
